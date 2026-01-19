@@ -22,10 +22,14 @@ export default function Form({ onDataAvailable }: { onDataAvailable: (data: {cit
             <h1 className="font-bold text-3xl">Cadastro de cidades</h1>
             <input type="text" ref={inputRef} name="Cidade" autoComplete="off" placeholder="Cidade" className="outline-none border-2 p-2 w-50 rounded-xl" />
             <button type="button" className="px-8 py-2 font-bold bg-blue-600 rounded-xl cursor-pointer hover:opacity-80 active:scale-97" onClick={() => {
-                handleClick();
-                if(inputRef.current) {
-                    inputRef.current.value = "";
-                    inputRef.current.placeholder = "Buscando...";
+                if(inputRef.current){
+                    if(inputRef.current.value !== "") {    
+                        handleClick();
+                        if(inputRef.current) {
+                            inputRef.current.value = "";
+                            inputRef.current.placeholder = "Buscando...";
+                        }
+                    }
                 }
             }}>Enviar</button>
         </div>

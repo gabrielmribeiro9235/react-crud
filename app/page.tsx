@@ -26,18 +26,23 @@ export default function Home() {
     let newCity = prompt("Digite a nova cidade:")?.trim();
     if(newCity) {
       newCity = newCity.toUpperCase();
-      try{
-        const response = await fetch(`https://goweather.xyz/v2/weather/${newCity}`);
-        if(!response.ok) throw new Error("Cidade não encontrada!")
-        const data = await response.json();
-        const newContent: formDataType = {
-          city: newCity,
-          temperature: data.temperature
+      const exists = formData.some(item => item.city === newCity)
+      if(!exists) {
+        try{
+          const response = await fetch(`https://goweather.xyz/v2/weather/${newCity}`);
+          if(!response.ok) throw new Error("Cidade não encontrada!")
+          const data = await response.json();
+          const newContent: formDataType = {
+            city: newCity,
+            temperature: data.temperature
+          }
+          setFormData(prev => prev.map(item => item.city === city ? newContent : item))
+        } catch {
+          alert("Cidade não encontrada!");
         }
-        setFormData(prev => prev.map(item => item.city === city ? newContent : item))
-      } catch {
-        alert("Cidade não encontrada!");
-      }
+      } else {
+        alert("Cidade já cadastrada!")
+      }  
     }
   };
   

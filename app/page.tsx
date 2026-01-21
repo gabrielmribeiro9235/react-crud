@@ -25,8 +25,23 @@ export default function Home() {
     } 
   };
 
-  const updateCity = (city: string) => {
-    console.log(city);
+  const updateCity = async (city: string) => {
+    let newCity = prompt("Digite a nova cidade:")?.trim();
+    if(newCity) {
+      newCity = newCity.toUpperCase();
+      try{
+        const response = await fetch(`https://goweather.xyz/v2/weather/${newCity}`);
+        if(!response.ok) throw new Error("Cidade não encontrada!")
+        const data = await response.json();
+        const newContent: formDataType = {
+          city: newCity,
+          temperature: data.temperature
+        }
+        setFormData(prev => prev.map(item => item.city === city ? newContent : item))
+      } catch {
+        alert("Cidade não encontrada!");
+      }
+    }
   };
   
   return (

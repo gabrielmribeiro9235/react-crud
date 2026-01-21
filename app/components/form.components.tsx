@@ -6,7 +6,7 @@ export default function Form({ onDataAvailable }: { onDataAvailable: (data: {cit
 
     const handleClick = async () => {
         try {
-            const city = inputRef.current!.value.toUpperCase();
+            const city = inputRef.current!.value.trim().toUpperCase();
             const response = await fetch(`https://goweather.xyz/v2/weather/${city}`);
             const data = await response.json();
             if(!response.ok) {

@@ -16,7 +16,7 @@ export default function Form({ onDataAvailable }: { onDataAvailable: (data: {cit
                 city,
                 temperature: data.temperature                
             })
-        } catch(err) {
+        } catch {
             alert("Cidade não encontrada!");
         } finally {
             inputRef.current!.placeholder = "Cidade";

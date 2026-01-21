@@ -19,10 +19,7 @@ export default function Home() {
   };
 
   const deleteCity = (city: string) => {
-    const ok = confirm(`Tem certeza que quer excluir ${city} do cadastro?`)
-    if(ok) {
-      setFormData(prev => prev.filter(item => (item.city !== city)));
-    } 
+    setFormData(prev => prev.filter(item => (item.city !== city)));
   };
 
   const updateCity = async (city: string) => {

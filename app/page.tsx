@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Form from "./components/form.components";
+import HeaderForm from "./components/headerForm.components";
 import Content from "./components/content.components";
 
 type formDataType = {
@@ -49,10 +49,16 @@ export default function Home() {
   
   return (
     <>
-      <Form onDataAvailable={handleDataFromForm} />
-      {formData.length !== 0 ? formData.map(item => (
-        <Content key={item.city} item={item} deleteCity={deleteCity} updateCity={updateCity} />
-      )): null}
+      <HeaderForm onDataAvailable={handleDataFromForm} />
+      <main className="flex justify-center items-center mt-30">
+          <div className="flex flex-wrap justify-start w-[1320px]">
+            {formData.length !== 0 ? formData.map(item => (
+              <Content key={item.city} item={item} deleteCity={deleteCity} updateCity={updateCity} />
+            )): (
+              <h1 className="text-white text-center font-bold text-5xl pt-10 w-full">Cadastre a primeira cidade</h1>
+            )}
+          </div>
+      </main>
     </>
   );
 }

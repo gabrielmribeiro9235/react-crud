@@ -24,7 +24,7 @@ export default function HeaderForm({ onDataAvailable }: { onDataAvailable: (data
     };
 
     return(
-        <header className="flex w-[100vw] justify-between fixed top-0 text-white bg-zinc-800 px-10 py-10 rounded-b-xl">
+        <header className="flex w-[100vw] justify-between fixed top-0 text-white bg-zinc-800 px-10 py-7 rounded-b-xl">
             <div className="flex gap-5">
                 <h1 className="font-bold text-3xl">Cadastro de cidades</h1>
                 <input type="text" ref={inputRef} name="Cidade" autoComplete="off" spellCheck="false" placeholder="Cidade" className="outline-none border-2 p-2 w-50 rounded-xl" />

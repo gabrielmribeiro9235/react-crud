@@ -50,7 +50,6 @@ export default function Home() {
   return (
     <>
       <Form onDataAvailable={handleDataFromForm} />
-      {console.log(formData)}
       {formData.length !== 0 ? formData.map(item => (
         <Content key={item.city} item={item} deleteCity={deleteCity} updateCity={updateCity} />
       )): null}

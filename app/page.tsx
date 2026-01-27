@@ -1,21 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HeaderForm from "./components/headerForm.components";
 import Content from "./components/content.components";
 
 type formDataType = {
   city: string,
   temperature: string
-}
+};
 
 export default function Home() {
   const [formData, setFormData] = useState<formDataType[]>([]);
+
+  useEffect(() => {
+    const savedData = localStorage.getItem("formData");
+    if(savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("formData", JSON.stringify(formData));
+  }, [formData]);
+
   const handleDataFromForm = (data: {city: string, temperature: string}) => {
-    const exists = formData.some(item => item.city === data.city)
+    const exists = formData.some(item => item.city === data.city);
     if(!exists){
       setFormData(prev => [ ...prev, data]);
     } else {
-      alert("Cidade já cadastrada!")
+      alert("Cidade já cadastrada!");
     }
   };
 
@@ -27,22 +39,22 @@ export default function Home() {
     let newCity = prompt("Digite a nova cidade:")?.trim();
     if(newCity) {
       newCity = newCity.toUpperCase();
-      const exists = formData.some(item => item.city === newCity)
+      const exists = formData.some(item => item.city === newCity);
       if(!exists) {
         try{
           const response = await fetch(`https://goweather.xyz/v2/weather/${newCity}`);
-          if(!response.ok) throw new Error("Cidade não encontrada!")
+          if(!response.ok) throw new Error("Cidade não encontrada!");
           const data = await response.json();
           const newContent: formDataType = {
             city: newCity,
             temperature: data.temperature
-          }
-          setFormData(prev => prev.map(item => item.city === city ? newContent : item))
+          };
+          setFormData(prev => prev.map(item => item.city === city ? newContent : item));
         } catch {
           alert("Cidade não encontrada!");
         }
       } else {
-        alert("Cidade já cadastrada!")
+        alert("Cidade já cadastrada!");
       }  
     }
   };

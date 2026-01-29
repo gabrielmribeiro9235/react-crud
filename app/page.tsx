@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import HeaderForm from "./components/headerForm.components";
 import Content from "./components/content.components";
+import Footer from "./components/footer.components";
 
 type formDataType = {
   city: string,
@@ -71,6 +72,7 @@ export default function Home() {
             )}
           </div>
       </main>
+      <Footer />
     </>
   );
 }

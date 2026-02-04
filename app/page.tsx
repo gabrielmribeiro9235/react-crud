@@ -63,7 +63,7 @@ export default function Home() {
   return (
     <>
       <HeaderForm onDataAvailable={handleDataFromForm} />
-      <main className="flex justify-center items-center mt-30">
+      <main className="flex justify-center items-center mt-30 mb-20">
           <div className="flex flex-wrap justify-start w-[1320px]">
             {formData.length !== 0 ? formData.map(item => (
               <Content key={item.city} item={item} deleteCity={deleteCity} updateCity={updateCity} />

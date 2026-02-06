@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 
-export default function HeaderForm({ onDataAvailable }: { onDataAvailable: (data: {city: string, temperature: string}) => void }) {
+export default function HeaderForm({ onDataAvailable, setAlertMsg, openAlert }: { onDataAvailable: (data: {city: string, temperature: string}) => void, setAlertMsg: React.Dispatch<React.SetStateAction<string>>, openAlert: () => void }) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleClick = async () => {
@@ -17,7 +17,8 @@ export default function HeaderForm({ onDataAvailable }: { onDataAvailable: (data
                 temperature: data.temperature                
             })
         } catch {
-            alert("Cidade não encontrada!");
+            setAlertMsg("Cidade não encontrada!");
+            openAlert();
         } finally {
             inputRef.current!.placeholder = "Cidade";
         }

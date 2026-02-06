@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import HeaderForm from "./components/headerForm.components";
 import Content from "./components/content.components";
 import Footer from "./components/footer.components";
+import Alert from "./components/alert.components";
 
 type formDataType = {
   city: string,
@@ -11,6 +12,14 @@ type formDataType = {
 
 export default function Home() {
   const [formData, setFormData] = useState<formDataType[]>([]);
+  const alertRef = useRef<HTMLDialogElement>(null);
+  const [alertMsg, setAlertMsg] = useState<string>("");
+  const openAlert = () => {
+    alertRef.current?.showModal();
+  };
+  const closeAlert = () => {
+    alertRef.current?.close()
+  };
 
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
@@ -28,7 +37,8 @@ export default function Home() {
     if(!exists){
       setFormData(prev => [ ...prev, data]);
     } else {
-      alert("Cidade já cadastrada!");
+      setAlertMsg("Cidade já cadastrada!");
+      openAlert();
     }
   };
 
@@ -52,17 +62,19 @@ export default function Home() {
           };
           setFormData(prev => prev.map(item => item.city === city ? newContent : item));
         } catch {
-          alert("Cidade não encontrada!");
+          setAlertMsg("Cidade não encontrada!");
+          openAlert();
         }
       } else {
-        alert("Cidade já cadastrada!");
+        setAlertMsg("Cidade já cadastrada!");
+        openAlert();
       }  
     }
   };
   
   return (
     <>
-      <HeaderForm onDataAvailable={handleDataFromForm} />
+      <HeaderForm onDataAvailable={handleDataFromForm} setAlertMsg={setAlertMsg} openAlert={openAlert} />
       <main className="flex justify-center items-center mt-30 mb-20">
           <div className="flex flex-wrap justify-start w-[1320px]">
             {formData.length !== 0 ? formData.map(item => (
@@ -73,6 +85,7 @@ export default function Home() {
           </div>
       </main>
       <Footer />
+      <Alert alertRef={alertRef} alertMsg={alertMsg} closeAlert={closeAlert} />
     </>
   );
 }

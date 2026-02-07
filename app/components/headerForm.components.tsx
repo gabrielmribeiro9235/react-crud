@@ -1,8 +1,10 @@
 "use client";
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
-export default function HeaderForm({ onDataAvailable, setAlertMsg, openAlert }: { onDataAvailable: (data: {city: string, temperature: string}) => void, setAlertMsg: React.Dispatch<React.SetStateAction<string>>, openAlert: () => void }) {
+export default function HeaderForm({ onDataAvailable,  }: { onDataAvailable: (data: {city: string, temperature: string}) => void }) {
     const inputRef = useRef<HTMLInputElement>(null);
+    const router = useRouter();
 
     const handleClick = async () => {
         try {
@@ -17,8 +19,7 @@ export default function HeaderForm({ onDataAvailable, setAlertMsg, openAlert }: 
                 temperature: data.temperature                
             })
         } catch {
-            setAlertMsg("Cidade não encontrada!");
-            openAlert();
+            router.push("/alert?msg=Cidade não encontrada!");
         } finally {
             inputRef.current!.placeholder = "Cidade";
         }

@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation"
 import HeaderForm from "./components/headerForm.components";
 import Content from "./components/content.components";
 import Footer from "./components/footer.components";
@@ -13,13 +13,14 @@ type formDataType = {
 export default function Home() {
   const [formData, setFormData] = useState<formDataType[]>([]);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
     if(savedData) {
       setFormData(JSON.parse(savedData));
     }
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     localStorage.setItem("formData", JSON.stringify(formData));
@@ -39,27 +40,7 @@ export default function Home() {
   };
 
   const updateCity = async (city: string) => {
-    let newCity = prompt("Digite a nova cidade:")?.trim();
-    if(newCity) {
-      newCity = newCity.toUpperCase();
-      const exists = formData.some(item => item.city === newCity);
-      if(!exists) {
-        try{
-          const response = await fetch(`https://goweather.xyz/v2/weather/${newCity}`);
-          if(!response.ok) throw new Error("Cidade não encontrada!");
-          const data = await response.json();
-          const newContent: formDataType = {
-            city: newCity,
-            temperature: data.temperature
-          };
-          setFormData(prev => prev.map(item => item.city === city ? newContent : item));
-        } catch {
-          router.push("/alert?msg=Cidade não encontrada!");
-        }
-      } else {
-        router.push("/alert?msg=Cidade já cadastrada!");
-      }  
-    }
+    router.push(`/update?city=${city}`);
   };
   
   return (

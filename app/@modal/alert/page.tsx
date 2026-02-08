@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Alert({ alertRef, alertMsg, closeAlert }: { alertRef: React.RefObject<HTMLDialogElement | null>, alertMsg: string, closeAlert: () => void}) {
+export default function Alert() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const msg = searchParams.get("msg") || "algo aconteceu";
